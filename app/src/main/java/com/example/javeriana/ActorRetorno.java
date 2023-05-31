@@ -1,9 +1,5 @@
 package com.example.javeriana;
 
-/**
- * Hello world!
- *
- */
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
@@ -11,7 +7,7 @@ import org.zeromq.ZMsg;
 
 import java.sql.*;
 
-public class App {
+public class ActorRetorno {
 
     private static final String DB_URL = "jdbc:mariadb://localhost:3306/biblioteca_caribe";
     private static final String DB_USER = "root";
@@ -25,34 +21,36 @@ public class App {
             // Establece la suscripción al tema "retornarLibro"
             socket.subscribe("retornarLibro".getBytes());
 
-            // Conecta el socket al puerto y dirección del publicador
-            socket.connect("tcp://localhost:5555");
+            // Conecta el socket al puerto y dirección del gestor
+            socket.connect("tcp://localhost:5556");
 
             while (!Thread.currentThread().isInterrupted()) {
-                // Espera un mensaje del publicador
+                // Espera un mensaje del gestor
                 ZMsg message = ZMsg.recvMsg(socket);
-                System.out.println("Mensaje recibido: " + message.getFirst().toString());
+                System.out.println("Mensaje recibido del gestor: " + message.getFirst().toString());
 
                 // Procesa el mensaje y envía la respuesta
                 String respuesta = procesarPeticion(message.getFirst().toString());
 
-                // Envía la respuesta al publicador utilizando un socket de tipo PUB
-                try (ZContext pubContext = new ZContext()) {
-                    ZMQ.Socket pubSocket = pubContext.createSocket(SocketType.PUB);
-                    pubSocket.bind("tcp://*:5556");
+                // Envía la respuesta al gestor utilizando un socket de tipo REQ
+                try (ZContext reqContext = new ZContext()) {
+                    ZMQ.Socket reqSocket = reqContext.createSocket(SocketType.REQ);
+                    reqSocket.connect("tcp://localhost:5555");
                     ZMsg response = new ZMsg();
                     response.add(respuesta);
-                    response.send(pubSocket);
+                    response.send(reqSocket);
                 }
             }
         }
     }
 
     private static String procesarPeticion(String peticion) {
+        System.out.println("Estoy solicitando la peticion....");
         String respuesta = "Peticion no reconocida";
         String comando = "Comando no reconocido";
         String tituloLibro = "TITULO NO LEIDO";
         String nombreUsuario = "USUARIO NO LEIDO";
+        
 
         try {
             String[] datosPeticion = peticion.split(",");
@@ -65,6 +63,7 @@ public class App {
 
         switch (comando) {
             case "DEVOLUCION":
+                System.out.println("Entre al case");
                 respuesta = retornarLibro(tituloLibro, nombreUsuario);
                 break;
             // Si hay más casos de comandos, agrégalos aquí
