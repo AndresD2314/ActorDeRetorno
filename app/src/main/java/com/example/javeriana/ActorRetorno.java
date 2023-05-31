@@ -15,31 +15,21 @@ public class ActorRetorno {
 
     public static void main(String[] args) {
         try (ZContext context = new ZContext()) {
-            // Crea un socket de tipo SUB
-            ZMQ.Socket socket = context.createSocket(SocketType.SUB);
-
-            // Establece la suscripción al tema "retornarLibro"
-            socket.subscribe("retornarLibro".getBytes());
-
-            // Conecta el socket al puerto y dirección del gestor
-            socket.connect("tcp://localhost:5556");
+            // Crea un socket de tipo REP
+            ZMQ.Socket socket = context.createSocket(SocketType.REP);
+            // Vincula el socket al puerto y dirección local
+            socket.bind("tcp://*:5556");
 
             while (!Thread.currentThread().isInterrupted()) {
-                // Espera un mensaje del gestor
-                ZMsg message = ZMsg.recvMsg(socket);
-                System.out.println("Mensaje recibido del gestor: " + message.getFirst().toString());
+                // Espera una petición del gestor
+                ZMsg request = ZMsg.recvMsg(socket);
+                System.out.println("Mensaje recibido del gestor: " + request.getFirst().toString());
 
-                // Procesa el mensaje y envía la respuesta
-                String respuesta = procesarPeticion(message.getFirst().toString());
-
-                // Envía la respuesta al gestor utilizando un socket de tipo REQ
-                try (ZContext reqContext = new ZContext()) {
-                    ZMQ.Socket reqSocket = reqContext.createSocket(SocketType.REQ);
-                    reqSocket.connect("tcp://localhost:5555");
-                    ZMsg response = new ZMsg();
-                    response.add(respuesta);
-                    response.send(reqSocket);
-                }
+                // Procesa la petición y envía la respuesta
+                String respuesta = procesarPeticion(request.getFirst().toString());
+                ZMsg response = new ZMsg();
+                response.add(respuesta);
+                response.send(socket);
             }
         }
     }
