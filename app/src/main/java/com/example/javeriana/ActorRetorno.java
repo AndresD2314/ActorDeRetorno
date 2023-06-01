@@ -3,7 +3,6 @@ package com.example.javeriana;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
-import org.zeromq.ZMsg;
 
 import java.sql.*;
 
@@ -14,22 +13,22 @@ public class ActorRetorno {
     private static final String DB_PASSWORD = "";
 
     public static void main(String[] args) {
-        try (ZContext context = new ZContext()) {
+        try (ZContext context = new ZContext()) 
+        {
             // Crea un socket de tipo REP
-            ZMQ.Socket socket = context.createSocket(SocketType.REP);
+            ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
             // Vincula el socket al puerto y dirección local
-            socket.bind("tcp://*:5556");
-
-            while (!Thread.currentThread().isInterrupted()) {
+            subscriber.connect("tcp://localhost:5557");
+            String subscription = String.format("retornoLibro", 0);
+            subscriber.subscribe(subscription.getBytes(ZMQ.CHARSET));
+            while (true) 
+            {
                 // Espera una petición del gestor
-                ZMsg request = ZMsg.recvMsg(socket);
-                System.out.println("Mensaje recibido del gestor: " + request.getFirst().toString());
-
-                // Procesa la petición y envía la respuesta
-                String respuesta = procesarPeticion(request.getFirst().toString());
-                ZMsg response = new ZMsg();
-                response.add(respuesta);
-                response.send(socket);
+                String topic = subscriber.recvStr();
+                if (topic == null)
+                    break;
+                String peticion = subscriber.recvStr();
+                System.out.println(procesarPeticion(peticion));
             }
         }
     }
@@ -53,10 +52,8 @@ public class ActorRetorno {
 
         switch (comando) {
             case "DEVOLUCION":
-                System.out.println("Entre al case");
                 respuesta = retornarLibro(tituloLibro, nombreUsuario);
                 break;
-            // Si hay más casos de comandos, agrégalos aquí
             default:
                 return respuesta;
         }

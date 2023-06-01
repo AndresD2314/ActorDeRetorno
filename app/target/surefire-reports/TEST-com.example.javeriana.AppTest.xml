@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.javeriana.AppTest" time="0.069" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.javeriana.AppTest" time="0.057" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\ESTUDI~1\AppData\Local\Temp\2\surefire10793563507587070847\surefirebooter18375339572537732974.jar C:\Users\Estudiante\AppData\Local\Temp\2\surefire10793563507587070847 2023-05-31T12-32-08_793-jvmRun1 surefire17446909587495687561tmp surefire_015478557345423951516tmp"/>
+    <property name="sun.java.command" value="C:\Users\ESTUDI~1\AppData\Local\Temp\2\surefire5942562581040976534\surefirebooter8855172488452589103.jar C:\Users\Estudiante\AppData\Local\Temp\2\surefire5942562581040976534 2023-05-31T15-18-15_856-jvmRun1 surefire970426522191301192tmp surefire_012582485811487597687tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="c:\Users\Estudiante\Documents\ActorDeRetorno\ActorDeRetorno\app\target\test-classes;c:\Users\Estudiante\Documents\ActorDeRetorno\ActorDeRetorno\app\target\classes;C:\Users\Estudiante\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Estudiante\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Estudiante\.m2\repository\org\zeromq\jeromq\0.5.2\jeromq-0.5.2.jar;C:\Users\Estudiante\.m2\repository\eu\neilalexander\jnacl\1.0.0\jnacl-1.0.0.jar;C:\Users\Estudiante\.m2\repository\org\mariadb\jdbc\mariadb-java-client\2.7.2\mariadb-java-client-2.7.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\ESTUDI~1\AppData\Local\Temp\2\surefire10793563507587070847\surefirebooter18375339572537732974.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\ESTUDI~1\AppData\Local\Temp\2\surefire5942562581040976534\surefirebooter8855172488452589103.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.6+9-LTS-190"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.example.javeriana.AppTest" time="0.002"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.example.javeriana.AppTest" time="0.004"/>
 </testsuite>
